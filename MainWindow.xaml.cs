@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
 using Path = System.IO.Path;
+using Microsoft.Win32;
 using System.Threading;
 using System.Net;
 
@@ -29,6 +30,42 @@ namespace UE57AndroidManager
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void SetJavaHome_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+            dlg.Title = "Select java.exe in the JDK bin folder";
+            dlg.Filter = "Java executable|java.exe;javaw.exe|All files|*.*";
+            dlg.CheckFileExists = true;
+            if (dlg.ShowDialog() == true)
+            {
+                var selectedFile = dlg.FileName;
+                try
+                {
+                    var binFolder = Path.GetDirectoryName(selectedFile);
+                    var jdkFolder = Directory.GetParent(binFolder).FullName;
+                    System.Environment.SetEnvironmentVariable("JAVA_HOME", jdkFolder, EnvironmentVariableTarget.User);
+                    OutputBox.AppendText("JAVA_HOME set to: " + jdkFolder + "\n");
+
+                    // add bin to user PATH if missing
+                    var binPath = binFolder;
+                    var userPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User) ?? "";
+                    var parts = userPath.Split(Path.PathSeparator).ToList();
+                    if (!parts.Any(p => string.Equals(p, binPath, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        parts.Add(binPath);
+                        var newPath = string.Join(Path.PathSeparator.ToString(), parts);
+                        System.Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.User);
+                        OutputBox.AppendText("Added 'bin' to user PATH: " + binPath + "\n");
+                    }
+                    OutputBox.AppendText("Note: Restart shells or IDE to pick up the new JAVA_HOME/PATH.\n");
+                }
+                catch (Exception ex)
+                {
+                    OutputBox.AppendText("Failed to set JAVA_HOME: " + ex.Message + "\n");
+                }
+            }
         }
         private async void DownloadAndroidStudio_Click(object sender, RoutedEventArgs e)
         {

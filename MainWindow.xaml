@@ -32,6 +32,9 @@
             <Button Content="Download JDK 21"
                     Click="DownloadJDK_Click"/>
 
+            <Button Content="Set JAVA_HOME"
+                    Click="SetJavaHome_Click"/>
+
             <Button Content="Generate Keystore"
                     Click="GenerateKeystore_Click"/>
 
