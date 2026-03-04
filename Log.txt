@@ -1,0 +1,130 @@
+﻿Android Studio downloaded to: C:\Temp\android-studio-koala.exe
+
+Installation instructions:
+1) Run the downloaded installer: C:\Temp\android-studio-koala.exe
+2) During installation choose the SDK location or note the default SDK path.
+3) After install, open Android Studio -> SDK Manager and ensure:
+   - Android SDK Platform 35 installed
+   - Android SDK Build-Tools 35.0.1 installed
+   - NDK (side by side) 27.x installed
+4) Set JAVA_HOME to your OpenJDK 21 installation path and restart the app.
+5) Then run 'Install Required SDK + NDK' in this tool to ensure packages.
+java version "21.0.3" 2024-04-16 LTS
+Java(TM) SE Runtime Environment (build 21.0.3+7-LTS-152)
+Java HotSpot(TM) 64-Bit Server VM (build 21.0.3+7-LTS-152, mixed mode, sharing)
+Java detected: java version "21.0.3" 2024-04-16 LTS
+Using SDK root: C:\Users\sivatech24\AppData\Local\Android\Sdk
+Uninstalling higher platform android-36...
+Loading local repository...                                                     
+[                                       ] 3% Loading local repository...        
+[=======================================] 100% Loading local repository...      
+
+
+Installing required packages: cmdline-tools;latest, platforms;android-35, build-tools;35.0.1, ndk;27.3.13750724
+Loading package information...                                                  
+Loading local repository...                                                     
+[                                       ] 3% Loading local repository...        
+[                                       ] 3% Fetch remote repository...         
+[=                                      ] 3% Fetch remote repository...         
+[=                                      ] 4% Fetch remote repository...         
+[=                                      ] 5% Fetch remote repository...         
+[==                                     ] 5% Fetch remote repository...         
+[==                                     ] 6% Fetch remote repository...         
+[==                                     ] 7% Fetch remote repository...         
+[==                                     ] 7% Computing updates...               
+[===                                    ] 8% Computing updates...               
+[===                                    ] 10% Computing updates...              
+[===                                    ] 10% Installing NDK (Side by side) 27.3
+[===                                    ] 10% Downloading android-ndk-r27d-windo
+[====                                   ] 10% Downloading android-ndk-r27d-windo
+[====                                   ] 11% Downloading android-ndk-r27d-windo
+[====                                   ] 12% Downloading android-ndk-r27d-windo
+[=====                                  ] 13% Downloading android-ndk-r27d-windo
+[=====                                  ] 14% Downloading android-ndk-r27d-windo
+[=====                                  ] 15% Downloading android-ndk-r27d-windo
+[======                                 ] 15% Downloading android-ndk-r27d-windo
+[======                                 ] 16% Downloading android-ndk-r27d-windo
+[======                                 ] 17% Downloading android-ndk-r27d-windo
+[=======                                ] 18% Downloading android-ndk-r27d-windo
+[=======                                ] 19% Downloading android-ndk-r27d-windo
+[=======                                ] 20% Downloading android-ndk-r27d-windo
+[========                               ] 20% Downloading android-ndk-r27d-windo
+[========                               ] 21% Downloading android-ndk-r27d-windo
+[========                               ] 22% Downloading android-ndk-r27d-windo
+[=========                              ] 23% Downloading android-ndk-r27d-windo
+[=========                              ] 24% Downloading android-ndk-r27d-windo
+[=========                              ] 25% Downloading android-ndk-r27d-windo
+[==========                             ] 25% Downloading android-ndk-r27d-windo
+[==========                             ] 26% Downloading android-ndk-r27d-windo
+[==========                             ] 27% Downloading android-ndk-r27d-windo
+[===========                            ] 28% Downloading android-ndk-r27d-windo
+[===========                            ] 29% Downloading android-ndk-r27d-windo
+[===========                            ] 30% Downloading android-ndk-r27d-windo
+[============                           ] 30% Downloading android-ndk-r27d-windo
+[============                           ] 31% Downloading android-ndk-r27d-windo
+[============                           ] 32% Downloading android-ndk-r27d-windo
+[============                           ] 33% Downloading android-ndk-r27d-windo
+[============                           ] 33% Unzipping...                      
+[============                           ] 33% Unzipping... android-ndk-r27d/    
+[============                           ] 33% Unzipping... android-ndk-r27d/buil
+[============                           ] 33% Unzipping... android-ndk-r27d/meta
+[============                           ] 33% Unzipping... android-ndk-r27d/preb
+[============                           ] 33% Unzipping... android-ndk-r27d/pyth
+[============                           ] 33% Unzipping... android-ndk-r27d/shad
+[============                           ] 33% Unzipping... android-ndk-r27d/simp
+[============                           ] 33% Unzipping... android-ndk-r27d/sour
+[============                           ] 33% Unzipping... android-ndk-r27d/tool
+[============                           ] 33% Unzipping... android-ndk-r27d/wrap
+[============                           ] 33% Unzipping... android-ndk-r27d/CHAN
+[=============                          ] 33% Unzipping... android-ndk-r27d/CHAN
+[=============                          ] 33% Unzipping... android-ndk-r27d/ndk-
+[=============                          ] 33% Unzipping... android-ndk-r27d/NOTI
+[=============                          ] 33% Unzipping... android-ndk-r27d/READ
+[=============                          ] 33% Unzipping... android-ndk-r27d/sour
+[=============                          ] 33% Unzipping... android-ndk-r27d/buil
+[=============                          ] 33% Unzipping... android-ndk-r27d/meta
+[=============                          ] 33% Unzipping... android-ndk-r27d/preb
+[=============                          ] 33% Unzipping... android-ndk-r27d/pyth
+[=============                          ] 33% Unzipping... android-ndk-r27d/shad
+[=============                          ] 33% Unzipping... android-ndk-r27d/simp
+[=============                          ] 33% Unzipping... android-ndk-r27d/sour
+[=============                          ] 34% Unzipping... android-ndk-r27d/sour
+[=============                          ] 34% Unzipping... android-ndk-r27d/tool
+[=============                          ] 35% Unzipping... android-ndk-r27d/tool
+[==============                         ] 35% Unzipping... android-ndk-r27d/tool
+[==============                         ] 36% Unzipping... android-ndk-r27d/tool
+[==============                         ] 37% Unzipping... android-ndk-r27d/tool
+[===============                        ] 38% Unzipping... android-ndk-r27d/tool
+[===============                        ] 39% Unzipping... android-ndk-r27d/tool
+[===============                        ] 40% Unzipping... android-ndk-r27d/tool
+[================                       ] 40% Unzipping... android-ndk-r27d/tool
+[================                       ] 41% Unzipping... android-ndk-r27d/tool
+[================                       ] 42% Unzipping... android-ndk-r27d/tool
+[=================                      ] 43% Unzipping... android-ndk-r27d/tool
+[=================                      ] 44% Unzipping... android-ndk-r27d/tool
+[=================                      ] 45% Unzipping... android-ndk-r27d/tool
+[==================                     ] 45% Unzipping... android-ndk-r27d/tool
+[==================                     ] 46% Unzipping... android-ndk-r27d/tool
+[==================                     ] 47% Unzipping... android-ndk-r27d/tool
+[===================                    ] 48% Unzipping... android-ndk-r27d/tool
+[===================                    ] 49% Unzipping... android-ndk-r27d/tool
+[===================                    ] 50% Unzipping... android-ndk-r27d/tool
+[====================                   ] 50% Unzipping... android-ndk-r27d/tool
+[====================                   ] 51% Unzipping... android-ndk-r27d/tool
+[====================                   ] 52% Unzipping... android-ndk-r27d/tool
+[=====================                  ] 53% Unzipping... android-ndk-r27d/tool
+[=====================                  ] 54% Unzipping... android-ndk-r27d/tool
+[=====================                  ] 55% Unzipping... android-ndk-r27d/tool
+[=====================                  ] 55% Unzipping... android-ndk-r27d/wrap
+[=======================================] 100% Unzipping... android-ndk-r27d/wra
+
+
+sdkmanager finished.
+
+SetupAndroid.bat: Found
+SetupAndroid.command: Found
+SetupAndroid.sh: Found
+Generating keystore at: C:\Users\sivatech24\Documents\ExampleKey.keystore
+Generating 2,048 bit RSA key pair and self-signed certificate (SHA384withRSA) with a validity of 10,000 days
+	for: CN=Example, OU=Dev, O=Company, L=City, ST=State, C=US
+Keystore generated: C:\Users\sivatech24\Documents\ExampleKey.keystore
