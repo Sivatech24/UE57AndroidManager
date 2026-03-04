@@ -118,5 +118,13 @@
   <ItemGroup>
     <Resource Include="Log.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\androidstudio.png" />
+    <Content Include="Images\image_convert.py" />
+    <Resource Include="Images\java.png" />
+    <Resource Include="Images\keystore.png" />
+    <Resource Include="Images\sdk.png" />
+    <Resource Include="Images\unreal.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
