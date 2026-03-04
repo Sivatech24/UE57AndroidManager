@@ -19,6 +19,9 @@ using Path = System.IO.Path;
 using Microsoft.Win32;
 using System.Threading;
 using System.Net;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows.Interop;
 
 namespace UE57AndroidManager
 {
@@ -34,39 +37,75 @@ namespace UE57AndroidManager
 
         private void SetJavaHome_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new OpenFileDialog();
-            dlg.Title = "Select java.exe in the JDK bin folder";
-            dlg.Filter = "Java executable|java.exe;javaw.exe|All files|*.*";
-            dlg.CheckFileExists = true;
-            if (dlg.ShowDialog() == true)
+            string selected = BrowseFolder("Select JDK installation folder (the JDK root that contains the 'bin' folder).");
+            if (string.IsNullOrEmpty(selected)) return;
+            try
             {
-                var selectedFile = dlg.FileName;
-                try
-                {
-                    var binFolder = Path.GetDirectoryName(selectedFile);
-                    var jdkFolder = Directory.GetParent(binFolder).FullName;
-                    System.Environment.SetEnvironmentVariable("JAVA_HOME", jdkFolder, EnvironmentVariableTarget.User);
-                    OutputBox.AppendText("JAVA_HOME set to: " + jdkFolder + "\n");
+                System.Environment.SetEnvironmentVariable("JAVA_HOME", selected, EnvironmentVariableTarget.User);
+                OutputBox.AppendText("JAVA_HOME set to: " + selected + "\n");
 
-                    // add bin to user PATH if missing
-                    var binPath = binFolder;
-                    var userPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User) ?? "";
-                    var parts = userPath.Split(Path.PathSeparator).ToList();
-                    if (!parts.Any(p => string.Equals(p, binPath, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        parts.Add(binPath);
-                        var newPath = string.Join(Path.PathSeparator.ToString(), parts);
-                        System.Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.User);
-                        OutputBox.AppendText("Added 'bin' to user PATH: " + binPath + "\n");
-                    }
-                    OutputBox.AppendText("Note: Restart shells or IDE to pick up the new JAVA_HOME/PATH.\n");
-                }
-                catch (Exception ex)
+                var binPath = Path.Combine(selected, "bin");
+                var userPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User) ?? "";
+                var parts = userPath.Split(Path.PathSeparator).ToList();
+                if (!parts.Any(p => string.Equals(p, binPath, StringComparison.OrdinalIgnoreCase)))
                 {
-                    OutputBox.AppendText("Failed to set JAVA_HOME: " + ex.Message + "\n");
+                    parts.Add(binPath);
+                    var newPath = string.Join(Path.PathSeparator.ToString(), parts);
+                    System.Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.User);
+                    OutputBox.AppendText("Added 'bin' to user PATH: " + binPath + "\n");
                 }
+                OutputBox.AppendText("Note: Restart shells or IDE to pick up the new JAVA_HOME/PATH.\n");
+            }
+            catch (Exception ex)
+            {
+                OutputBox.AppendText("Failed to set JAVA_HOME: " + ex.Message + "\n");
             }
         }
+
+        private string BrowseFolder(string title)
+        {
+            var bi = new BROWSEINFOW();
+            bi.hwndOwner = new WindowInteropHelper(this).Handle;
+            bi.lpszTitle = title;
+            bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE;
+            IntPtr pidl = SHBrowseForFolder(ref bi);
+            if (pidl == IntPtr.Zero) return null;
+            var sb = new StringBuilder(260);
+            if (SHGetPathFromIDList(pidl, sb))
+            {
+                CoTaskMemFree(pidl);
+                return sb.ToString();
+            }
+            CoTaskMemFree(pidl);
+            return null;
+        }
+
+        private const uint BIF_RETURNONLYFSDIRS = 0x00000001;
+        private const uint BIF_NEWDIALOGSTYLE = 0x00000040;
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct BROWSEINFOW
+        {
+            public IntPtr hwndOwner;
+            public IntPtr pidlRoot;
+            public IntPtr pszDisplayName;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string lpszTitle;
+            public uint ulFlags;
+            public IntPtr lpfn;
+            public IntPtr lParam;
+            public int iImage;
+        }
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        private static extern IntPtr SHBrowseForFolder(ref BROWSEINFOW lpbi);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SHGetPathFromIDList(IntPtr pidl, [Out] StringBuilder pszPath);
+
+        [DllImport("ole32.dll")]
+        private static extern void CoTaskMemFree(IntPtr pv);
         private async void DownloadAndroidStudio_Click(object sender, RoutedEventArgs e)
         {
             string url = "https://edgedl.me.gvt1.com/edgedl/android/studio/install/2024.1.2.13/android-studio-2024.1.2.13-windows.exe";
