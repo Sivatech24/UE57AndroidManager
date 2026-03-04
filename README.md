@@ -104,4 +104,14 @@ This is a small local utility. If you want enhancements (more package automation
 
 ## License
 
-No license file included. Add a license of your choice if you plan to share or publish this project.
+This project's source code is licensed under the Apache License, Version 2.0. If you distribute or publish this project, include a copy of the `LICENSE` file with the Apache-2.0 text.
+
+Third-party components and tools referenced or downloaded by this utility are covered by their own licenses. You must comply with those licenses when installing or redistributing those components:
+
+- Android Studio and Android SDK tools: distributed by Google. Review Android Studio and SDK terms at https://developer.android.com/studio/terms
+- Android platform, build-tools and NDK: distributed by Google. See Android SDK license details (displayed by `sdkmanager --licenses`).
+- Oracle JDK: Oracle provides separate licensing for Oracle JDK downloads; review Oracle Java SE licensing at https://www.oracle.com/java/technologies/javase/jdk-21-licensing.html
+- OpenJDK: OpenJDK is distributed under the GNU General Public License, version 2, with the Classpath Exception. See https://openjdk.org/legal/gplv2+ce.html
+- Unreal Engine (Epic Games): distributed under Epic Games Unreal Engine EULA. See https://www.unrealengine.com/en-US/eula
+
+This README does not replace the official license terms of third-party products. Use this tool only after you have read and accepted the applicable third-party license terms.
