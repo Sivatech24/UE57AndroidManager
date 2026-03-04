@@ -254,9 +254,20 @@ namespace UE57AndroidManager
 
         private async void GenerateKeystore_Click(object sender, RoutedEventArgs e)
         {
+            // open keystore input window
+            var win = new KeystoreWindow();
+            win.Owner = this;
+            if (win.ShowDialog() == true)
+            {
+                var model = win.Model;
+                await CreateKeystoreAsync(model);
+            }
+        }
+
+        private async Task CreateKeystoreAsync(KeystoreModel model)
+        {
             try
             {
-                // find keytool
                 string javaHome = Environment.GetEnvironmentVariable("JAVA_HOME");
                 string keytoolPath = null;
                 if (!string.IsNullOrWhiteSpace(javaHome))
@@ -264,17 +275,12 @@ namespace UE57AndroidManager
                     var candidate = Path.Combine(javaHome, "bin", "keytool.exe");
                     if (File.Exists(candidate)) keytoolPath = candidate;
                 }
-                if (keytoolPath == null)
-                {
-                    // try in PATH
-                    keytoolPath = "keytool.exe";
-                }
+                if (keytoolPath == null) keytoolPath = "keytool.exe";
 
-                string keystorePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ExampleKey.keystore");
-                string storepass = "changeit";
-                string dname = "CN=Example, OU=Dev, O=Company, L=City, S=State, C=US";
+                string keystorePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), model.FileName ?? "ExampleKey.keystore");
 
-                var args = $"-genkeypair -alias MyKey -keyalg RSA -keysize 2048 -validity 10000 -keystore \"{keystorePath}\" -storepass {storepass} -keypass {storepass} -dname \"{dname}\"";
+                var dname = $"CN={model.CommonName}, OU={model.OrganizationalUnit}, O={model.Organization}, L={model.Locality}, S={model.State}, C={model.Country}";
+                var args = $"-genkeypair -alias {model.Alias} -keyalg RSA -keysize {model.KeySize} -validity {model.ValidityDays} -keystore \"{keystorePath}\" -storepass {model.StorePassword} -keypass {model.KeyPassword} -dname \"{dname}\"";
                 OutputBox.AppendText("Generating keystore at: " + keystorePath + "\n");
                 var result = await RunProcessAsync(keytoolPath, args, null,
                     s => Dispatcher.Invoke(() => OutputBox.AppendText(s + "\n")),
@@ -292,6 +298,38 @@ namespace UE57AndroidManager
             catch (Exception ex)
             {
                 OutputBox.AppendText("Error generating keystore: " + ex.Message + "\n");
+            }
+        }
+
+        private async void DownloadJDK_Click(object sender, RoutedEventArgs e)
+        {
+            string[] urls = new[] {
+                "https://download.oracle.com/java/21/archive/jdk-21.0.3_windows-x64_bin.exe",
+                "https://download.oracle.com/java/21/archive/jdk-21.0.3_windows-x64_bin.msi"
+            };
+            string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+            Directory.CreateDirectory(folder);
+            foreach (var url in urls)
+            {
+                var fileName = Path.GetFileName(new Uri(url).LocalPath);
+                var dest = Path.Combine(folder, fileName);
+                OutputBox.AppendText("Starting download: " + url + "\n");
+                try
+                {
+                    var cancelled = await DownloadFileWithProgressAsync(url, dest);
+                    if (cancelled)
+                    {
+                        OutputBox.AppendText("Download cancelled: " + url + "\n");
+                    }
+                    else
+                    {
+                        OutputBox.AppendText("Downloaded JDK to: " + dest + "\n");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    OutputBox.AppendText("Error downloading JDK from " + url + ": " + ex.Message + "\n");
+                }
             }
         }
 
