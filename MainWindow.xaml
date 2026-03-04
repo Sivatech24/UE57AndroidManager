@@ -5,8 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UE57AndroidManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="UE 5.7 Android Setup Manager" Height="450" Width="800">
+    <Grid Margin="10">
+        <StackPanel>
+
+            <TextBlock Text="Unreal Engine 5.7 Android Setup Tool"
+                       FontSize="22" FontWeight="Bold"/>
+
+            <Separator Margin="0,10"/>
+
+            <Button Content="Download Android Studio Koala 2024.1.2"
+                    Click="DownloadAndroidStudio_Click"/>
+
+            <Button Content="Verify JDK 21"
+                    Click="VerifyJDK_Click"/>
+
+            <Button Content="Install Required SDK + NDK"
+                    Click="InstallSDK_Click"/>
+
+            <Button Content="Verify Unreal Engine Android Support"
+                    Click="VerifyUE_Click"/>
+
+            <Button Content="Run SetupAndroid.bat"
+                    Click="RunSetup_Click"/>
+
+            <Button Content="Generate Keystore"
+                    Click="GenerateKeystore_Click"/>
+
+            <Separator Margin="0,10"/>
+
+            <TextBox Name="OutputBox"
+                     Height="300"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Auto"/>
+        </StackPanel>
     </Grid>
 </Window>
