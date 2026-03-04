@@ -130,6 +130,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Images\logo.webp" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -143,6 +144,9 @@
     <Resource Include="Log.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\favicon.ico" />
+    <Content Include="Images\icon.py" />
+    <Content Include="Images\various_size_icon.py" />
     <Resource Include="favicon.ico" />
     <Resource Include="Images\androidstudio.png" />
     <Content Include="Images\image_convert.py" />
