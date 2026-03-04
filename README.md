@@ -1,0 +1,1 @@
+# UE57AndroidManager
