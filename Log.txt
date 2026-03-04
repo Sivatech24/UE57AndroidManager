@@ -128,3 +128,9 @@ Generating keystore at: C:\Users\sivatech24\Documents\ExampleKey.keystore
 Generating 2,048 bit RSA key pair and self-signed certificate (SHA384withRSA) with a validity of 10,000 days
 	for: CN=Example, OU=Dev, O=Company, L=City, ST=State, C=US
 Keystore generated: C:\Users\sivatech24\Documents\ExampleKey.keystore
+
+Starting download: https://download.oracle.com/java/21/archive/jdk-21.0.3_windows-x64_bin.exe
+Downloaded JDK to: C:\Users\sivatech24\Downloads\jdk-21.0.3_windows-x64_bin.exe
+Starting download: https://download.oracle.com/java/21/archive/jdk-21.0.3_windows-x64_bin.msi
+Downloaded JDK to: C:\Users\sivatech24\Downloads\jdk-21.0.3_windows-x64_bin.msi
+
