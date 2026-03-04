@@ -16,6 +16,8 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
 using Path = System.IO.Path;
+using System.Threading;
+using System.Net;
 
 namespace UE57AndroidManager
 {
@@ -30,17 +32,73 @@ namespace UE57AndroidManager
         }
         private async void DownloadAndroidStudio_Click(object sender, RoutedEventArgs e)
         {
-            string url = "https://redirector.gvt1.com/edgedl/android/studio/install/2024.1.2.0/android-studio-2024.1.2.0-windows.exe";
+            string url = "https://edgedl.me.gvt1.com/edgedl/android/studio/install/2024.1.2.13/android-studio-2024.1.2.13-windows.exe";
             string filePath = @"C:\Temp\android-studio-koala.exe";
 
-            using (var client = new HttpClient())
+            try
             {
-                    var data = await client.GetByteArrayAsync(url);
                 Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-                File.WriteAllBytes(filePath, data);
-            }
+                var cancelled = await DownloadFileWithProgressAsync(url, filePath);
+                if (cancelled)
+                {
+                    OutputBox.AppendText("Download cancelled.\n");
+                    return;
+                }
 
-            OutputBox.AppendText("Android Studio downloaded.\n");
+                OutputBox.AppendText("Android Studio downloaded to: " + filePath + "\n");
+                OutputBox.AppendText("\nInstallation instructions:\n");
+                OutputBox.AppendText("1) Run the downloaded installer: " + filePath + "\n");
+                OutputBox.AppendText("2) During installation choose the SDK location or note the default SDK path.\n");
+                OutputBox.AppendText("3) After install, open Android Studio -> SDK Manager and ensure:\n   - Android SDK Platform 35 installed\n   - Android SDK Build-Tools 35.0.1 installed\n   - NDK (side by side) 27.x installed\n");
+                OutputBox.AppendText("4) Set JAVA_HOME to your OpenJDK 21 installation path and restart the app.\n");
+                OutputBox.AppendText("5) Then run 'Install Required SDK + NDK' in this tool to ensure packages.\n");
+            }
+            catch (Exception ex)
+            {
+                OutputBox.AppendText("Error downloading Android Studio: " + ex.Message + "\n");
+            }
+        }
+
+        private async Task<bool> DownloadFileWithProgressAsync(string url, string destinationPath)
+        {
+            var progressWindow = new ProgressWindow();
+            var cts = progressWindow.Cancellation;
+            progressWindow.Owner = this;
+            progressWindow.Show();
+
+            try
+            {
+                using (var client = new HttpClient())
+                using (var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cts.Token))
+                {
+                    response.EnsureSuccessStatusCode();
+                    var contentLength = response.Content.Headers.ContentLength ?? -1L;
+                    using (var contentStream = await response.Content.ReadAsStreamAsync())
+                    using (var fileStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                    {
+                        var buffer = new byte[81920];
+                        long totalRead = 0;
+                        int read;
+                        while ((read = await contentStream.ReadAsync(buffer, 0, buffer.Length, cts.Token)) > 0)
+                        {
+                            await fileStream.WriteAsync(buffer, 0, read, cts.Token);
+                            totalRead += read;
+                            double percent = contentLength > 0 ? (totalRead * 100d / contentLength) : -1;
+                            progressWindow.Report(percent, totalRead, contentLength);
+                        }
+                    }
+                }
+                return false;
+            }
+            catch (OperationCanceledException)
+            {
+                try { if (File.Exists(destinationPath)) File.Delete(destinationPath); } catch { }
+                return true;
+            }
+            finally
+            {
+                progressWindow.Dispatcher.Invoke(() => progressWindow.Close());
+            }
         }
 
         private async void VerifyJDK_Click(object sender, RoutedEventArgs e)
